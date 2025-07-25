@@ -8,22 +8,21 @@ interface InfoCardProps {
   icon?: React.ReactNode;
 }
 
+type ContentElement = ReactElement<{ className?: string }>;
+
 export default function InfoCard({ content, icon }: InfoCardProps) {
   let contentNode = content;
   if (
     React.isValidElement(content) &&
     content.props &&
-    typeof (content.props as ReactElement<any, any>).props.className ===
-      "string" &&
-    ((content.props as ReactElement<any, any>).props.className ===
-      "profileCardContent" ||
-      (content.props as ReactElement<any, any>).props.className ===
-        "aboutCardContent")
+    typeof (content as ContentElement).props.className === "string" &&
+    ((content as ContentElement).props.className === "profileCardContent" ||
+      (content as ContentElement).props.className === "aboutCardContent")
   ) {
     const className = `${
-      styles[(content.props as ReactElement<any, any>).props.className]
-    } ${(content.props as ReactElement<any, any>).props.className}`;
-    contentNode = React.cloneElement(content, {
+      styles[(content as ContentElement).props.className!]
+    } ${(content as ContentElement).props.className}`;
+    contentNode = React.cloneElement(content as ContentElement, {
       className,
     });
   }
