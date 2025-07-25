@@ -72,12 +72,12 @@ export default function ProjectCarousel({ projects }: ProjectCarouselProps) {
                     {project.description}
                   </div>
                   <div style={{ fontSize: "0.95rem", marginBottom: 6 }}>
-                    <span style={{ color: "#c084fc" }}>
+                    <span style={{ color: "#1f2937" }}>
                       {project.tech.join(", ")}
                     </span>
                   </div>
                   {project.stars && (
-                    <div style={{ fontSize: "0.9rem", color: "#facc15" }}>
+                    <div style={{ fontSize: "0.9rem", color: "#1f2937" }}>
                       ★ {project.stars} stars
                     </div>
                   )}
