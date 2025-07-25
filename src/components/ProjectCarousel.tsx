@@ -8,7 +8,6 @@ interface Project {
   url: string;
   tech: string[];
   stars?: number;
-  [key: string]: any;
 }
 
 interface ProjectCarouselProps {

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./InfoCard.module.css";
 
-import { ReactNode } from "react";
+import { ReactNode, ReactElement } from "react";
 interface InfoCardProps {
   title?: string;
   content: string | ReactNode;
@@ -13,16 +13,19 @@ export default function InfoCard({ content, icon }: InfoCardProps) {
   if (
     React.isValidElement(content) &&
     content.props &&
-    typeof (content.props as any).className === "string" &&
-    ((content.props as any).className === "profileCardContent" ||
-      (content.props as any).className === "aboutCardContent")
+    typeof (content.props as ReactElement<any, any>).props.className ===
+      "string" &&
+    ((content.props as ReactElement<any, any>).props.className ===
+      "profileCardContent" ||
+      (content.props as ReactElement<any, any>).props.className ===
+        "aboutCardContent")
   ) {
-    const className = `${styles[(content.props as any).className]} ${
-      (content.props as any).className
-    }`;
+    const className = `${
+      styles[(content.props as ReactElement<any, any>).props.className]
+    } ${(content.props as ReactElement<any, any>).props.className}`;
     contentNode = React.cloneElement(content, {
       className,
-    } as any);
+    });
   }
   return (
     <div className={styles.card}>
