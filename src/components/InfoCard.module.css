@@ -1,0 +1,60 @@
+.card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--tw-bg-opacity, 1) #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+.card:hover {
+  transform: scale(1.1);
+  z-index: 20;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+.cardTitle {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+.cardContent {
+  color: #fff;
+  white-space: pre-line;
+}
+
+.profileCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+.profileName {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+}
+.profileTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+.profileDescription {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.4;
+}
+.aboutCardContent {
+  font-size: 0.92rem;
+  color: #fff;
+  white-space: pre-line;
+  word-break: break-word;
+  max-width: 32rem;
+  line-height: 2.1;
+  letter-spacing: 0.01em;
+  padding: 1.25rem 1.5rem;
+}
