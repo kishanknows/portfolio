@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,9 +13,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kishan's Portfolio",
+  title: "Kishan · Software Engineer",
   description:
-    "Personal portfolio website for Kishan, showcasing projects and contact information.",
+    "Kishan is a Software Development Engineer at NowFloats and an IIT Delhi alum building iOS apps, Go microservices and web experiences.",
+  openGraph: {
+    title: "Kishan · Software Engineer",
+    description: "iOS, backend and full-stack projects by Kishan.",
+    url: "https://kishanknows.github.io/portfolio/",
+    type: "website",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#06060a",
 };
 
 export default function RootLayout({
@@ -25,11 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
     </html>
   );
 }

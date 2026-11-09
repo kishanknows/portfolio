@@ -1,150 +1,142 @@
 "use client";
-import React from "react";
+import { motion } from "motion/react";
+import { useState } from "react";
+import { profile } from "../data/profile";
+import { ArrowRight, GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "../components/icons";
+import { Magnetic, Reveal, ease } from "../components/motion";
 
-const contactIcons = {
-  name: (
-    <svg
-      className="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-      />
-    </svg>
-  ),
-  email: (
-    <svg
-      className="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-      />
-    </svg>
-  ),
-  message: (
-    <svg
-      className="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-      />
-    </svg>
-  ),
-};
+function Field({
+  name,
+  label,
+  type = "text",
+  textarea = false,
+}: {
+  name: string;
+  label: string;
+  type?: string;
+  textarea?: boolean;
+}) {
+  const cls =
+    "peer w-full rounded-2xl border border-line bg-white/[0.03] px-4 pb-3 pt-6 text-fg placeholder-transparent outline-none transition-all focus:border-accent/60 focus:bg-white/[0.05] focus:shadow-[0_0_0_4px_rgb(139_123_255/0.12)]";
+  return (
+    <label className="relative block">
+      {textarea ? (
+        <textarea name={name} required rows={5} placeholder={label} className={`${cls} resize-none`} />
+      ) : (
+        <input name={name} type={type} required placeholder={label} className={cls} />
+      )}
+      <span className="pointer-events-none absolute left-4 top-2 text-xs text-muted transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-xs peer-focus:text-accent-2">
+        {label}
+      </span>
+    </label>
+  );
+}
 
 export default function ContactSection() {
+  const [copied, setCopied] = useState(false);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const name =
-      (form.elements.namedItem("name") as HTMLInputElement)?.value || "";
-    const email =
-      (form.elements.namedItem("email") as HTMLInputElement)?.value || "";
-    const message =
-      (form.elements.namedItem("message") as HTMLTextAreaElement)?.value || "";
-    const mailto = `mailto:kishanknows@gmail.com?subject=Contact from ${encodeURIComponent(
-      name
-    )}&body=${encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\n${message}`
-    )}`;
-    window.location.href = mailto;
+    const f = new FormData(e.currentTarget);
+    const name = String(f.get("name") ?? "");
+    const email = String(f.get("email") ?? "");
+    const message = String(f.get("message") ?? "");
+    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(
+      `Hello from ${name}`,
+    )}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
   }
+
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  }
+
   return (
-    <section className="py-16 px-4 max-w-3xl mx-auto" id="contact">
-      <div className="relative bg-white/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl hover-elevation">
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full opacity-50 blur-3xl"></div>
+    <section id="contact" className="relative px-5 py-28 sm:px-8 sm:py-36">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <div className="glass relative overflow-hidden rounded-[2rem] p-8 sm:p-14">
+            <div className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-accent/25 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-accent-2/20 blur-3xl" />
 
-        <div className="relative z-10">
-          <h2 className="text-3xl font-bold mb-6 text-gray-900 text-center">
-            Let&apos;s Connect
-          </h2>
-          <p className="mb-8 text-center text-gray-600 max-w-lg mx-auto">
-            Interested in working together or have a question? Feel free to
-            reach out!
-          </p>
+            <div className="relative grid gap-12 lg:grid-cols-2">
+              <div className="flex flex-col">
+                <div className="mb-4 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-accent-2">
+                  <span className="h-px w-8 bg-gradient-to-r from-transparent to-accent-2" />
+                  Contact
+                </div>
+                <h2 className="text-4xl font-semibold tracking-tight text-fg sm:text-6xl">
+                  Let&apos;s build <br />
+                  <span className="text-gradient">something great.</span>
+                </h2>
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">
+                  Have a role, a project or just want to talk shop about iOS, Go or algorithms? My inbox is
+                  always open.
+                </p>
 
-          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
-            <div className="group relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
-                {contactIcons.name}
+                <button
+                  onClick={copyEmail}
+                  className="group mt-10 inline-flex w-fit items-center gap-3 rounded-2xl border border-line bg-white/[0.03] px-5 py-4 text-left transition-colors hover:bg-white/[0.06]"
+                >
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent to-accent-2 text-ink">
+                    <MailIcon />
+                  </span>
+                  <span>
+                    <span className="block text-xs text-muted">{copied ? "Copied to clipboard" : "Click to copy"}</span>
+                    <span className="block font-medium text-fg">{profile.email}</span>
+                  </span>
+                </button>
+
+                <div className="mt-auto flex gap-2 pt-10">
+                  {[
+                    { href: profile.social.github, icon: <GitHubIcon />, label: "GitHub" },
+                    { href: profile.social.linkedin, icon: <LinkedInIcon />, label: "LinkedIn" },
+                    { href: profile.social.twitter, icon: <XIcon />, label: "X / Twitter" },
+                  ].map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="grid h-12 w-12 place-items-center rounded-full border border-line text-muted transition-all hover:-translate-y-1 hover:border-accent/50 hover:text-fg"
+                    >
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                required
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-white/50 backdrop-blur-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200"
-              />
-            </div>
 
-            <div className="group relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
-                {contactIcons.email}
-              </div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                required
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-white/50 backdrop-blur-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200"
-              />
-            </div>
-
-            <div className="group relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
-                {contactIcons.message}
-              </div>
-              <textarea
-                name="message"
-                placeholder="Your Message"
-                required
-                rows={5}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-white/50 backdrop-blur-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 transition-all duration-200 resize-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="group relative overflow-hidden px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium transition-all duration-200 hover:shadow-md hover:from-blue-600 hover:to-purple-600"
-            >
-              <div className="relative flex items-center justify-center gap-2">
-                <span>Send Message</span>
-                <span className="transform group-hover:translate-x-1 transition-transform duration-300">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              <motion.form
+                onSubmit={handleSubmit}
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease, delay: 0.15 }}
+                className="flex flex-col gap-4"
+              >
+                <Field name="name" label="Your name" />
+                <Field name="email" label="Your email" type="email" />
+                <Field name="message" label="What would you like to talk about?" textarea />
+                <Magnetic strength={0.2}>
+                  <button
+                    type="submit"
+                    className="group relative mt-2 inline-flex items-center gap-2 overflow-hidden rounded-full bg-fg px-7 py-3.5 font-medium text-ink"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </button>
-          </form>
-        </div>
+                    <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                    <span className="relative">Send message</span>
+                    <ArrowRight className="relative h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </Magnetic>
+              </motion.form>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
