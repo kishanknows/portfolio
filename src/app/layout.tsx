@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kishan · Software Engineer",
+  title: "Kishan Jangde · Software Engineer",
   description:
-    "Kishan is a Software Development Engineer at NowFloats and an IIT Delhi alum building iOS apps, Go microservices and web experiences.",
+    "Kishan Jangde is a Software Development Engineer at District by Zomato and an IIT Delhi alum building iOS apps, full-stack products and backend services.",
   openGraph: {
-    title: "Kishan · Software Engineer",
-    description: "iOS, backend and full-stack projects by Kishan.",
+    title: "Kishan Jangde · Software Engineer",
+    description: "iOS, backend and full-stack projects by Kishan Jangde.",
     url: "https://kishanknows.github.io/portfolio/",
     type: "website",
   },
