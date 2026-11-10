@@ -7,12 +7,6 @@ export const profile = {
   role: "Software Development Engineer",
   company: "District by Zomato",
   location: "New Delhi, India",
-  roles: [
-    "iOS Engineer",
-    "Full-stack Engineer",
-    "React Native Developer",
-    "Competitive Programmer",
-  ],
   tagline:
     "I build reliable, user-facing products and like understanding systems end to end, from mobile apps to backend logic, APIs and performance.",
   about: [
