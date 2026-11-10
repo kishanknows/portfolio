@@ -11,7 +11,7 @@ export default function Footer() {
           kishan
         </div>
         <div className="mt-10 flex flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
-          <span>© {new Date().getFullYear()} Kishan. Designed & built with Next.js.</span>
+          <span>© {new Date().getFullYear()} Kishan Jangde. Designed & built with Next.js.</span>
           <div className="flex gap-6">
             <a href={profile.social.github} target="_blank" rel="noopener noreferrer" className="hover:text-fg">
               GitHub

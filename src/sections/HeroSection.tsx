@@ -174,7 +174,7 @@ export default function HeroSection() {
               <div className="relative h-full w-full overflow-hidden rounded-[calc(2.5rem-2px)] bg-ink-2">
                 <Image
                   src={profile.avatar}
-                  alt={profile.firstName}
+                  alt={profile.fullName}
                   fill
                   priority
                   sizes="(max-width: 1024px) 80vw, 352px"

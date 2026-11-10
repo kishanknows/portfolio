@@ -75,7 +75,7 @@ export default function ContactSection() {
                   <span className="text-gradient">something great.</span>
                 </h2>
                 <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">
-                  Have a role, a project or just want to talk shop about iOS, Go or algorithms? My inbox is
+                  Have a role, a project or just want to talk shop about iOS, full-stack or algorithms? My inbox is
                   always open.
                 </p>
 
