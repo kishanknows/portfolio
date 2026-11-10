@@ -102,7 +102,7 @@ export default function CodingSection() {
   ];
 
   return (
-    <section id="coding" className="relative px-5 py-28 sm:px-8 sm:py-36">
+    <section id="coding" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Competitive programming"

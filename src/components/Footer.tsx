@@ -2,7 +2,7 @@ import { profile } from "../data/profile";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-line px-5 pb-10 pt-20 sm:px-8">
+    <footer className="relative overflow-hidden border-t border-line pb-10 pt-20">
       <div className="mx-auto max-w-6xl">
         <div
           aria-hidden

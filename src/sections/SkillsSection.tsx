@@ -39,8 +39,8 @@ function Marquee({
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="relative py-28 sm:py-36">
-      <div className="px-5 sm:px-8">
+    <section id="skills" className="relative py-24 sm:py-32">
+      <div>
         <div className="mx-auto max-w-6xl">
           <SectionHeading
             eyebrow="Toolbox"

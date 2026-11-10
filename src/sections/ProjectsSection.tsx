@@ -6,11 +6,11 @@ import { ArrowUpRight, GitHubIcon, StarIcon } from "../components/icons";
 import { SectionHeading, ease, staggerChild, staggerParent, trackGlow } from "../components/motion";
 
 const gradients: Record<Category, string> = {
-  Backend: "from-[#6d5dfc] via-[#3b82f6] to-[#3ee0d0]",
-  Apple: "from-[#ff8fb1] via-[#a78bfa] to-[#6d5dfc]",
-  Mobile: "from-[#3ee0d0] via-[#22c55e] to-[#a3e635]",
-  Tools: "from-[#f59e0b] via-[#ff8fb1] to-[#a78bfa]",
-  "Algorithms & ML": "from-[#38bdf8] via-[#6d5dfc] to-[#ff8fb1]",
+  Backend: "from-[#ff6a2b] via-[#ff3d5e] to-[#7a1f12]",
+  Apple: "from-[#ffffff] via-[#ffb15c] to-[#ff6a2b]",
+  Mobile: "from-[#ffb15c] via-[#f59e0b] to-[#78350f]",
+  Tools: "from-[#e5e5e5] via-[#a3a3a3] to-[#404040]",
+  "Algorithms & ML": "from-[#ff3d5e] via-[#ff6a2b] to-[#ffb15c]",
 };
 
 /** Large featured card with 3D tilt + cursor glow. */
@@ -122,7 +122,7 @@ export default function ProjectsSection() {
     .filter((p) => filter === "All" || p.category === filter);
 
   return (
-    <section id="projects" className="relative px-5 py-28 sm:px-8 sm:py-36">
+    <section id="projects" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Selected work"

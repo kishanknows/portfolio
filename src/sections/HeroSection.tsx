@@ -1,11 +1,12 @@
 "use client";
-import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
-import { ArrowRight, GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "../components/icons";
-import { Magnetic, ease } from "../components/motion";
+import { ArrowUpRight, LinkedInIcon, MailIcon } from "../components/icons";
+import { ease } from "../components/motion";
+
+const chips = ["iOS", "Swift", "UIKit", "React Native", "Node.js", "Go", "Spring Boot", "System Debugging"];
 
 function RotatingRole() {
   const [i, setI] = useState(0);
@@ -14,15 +15,15 @@ function RotatingRole() {
     return () => clearInterval(t);
   }, []);
   return (
-    <span className="relative inline-grid h-[1.25em] overflow-hidden align-bottom">
+    <span className="relative inline-grid h-[1.2em] overflow-hidden align-bottom">
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={profile.roles[i]}
-          initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
-          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-          exit={{ y: "-100%", opacity: 0, filter: "blur(6px)" }}
-          transition={{ duration: 0.7, ease }}
-          className="whitespace-nowrap bg-gradient-to-r from-accent via-accent-2 to-accent-3 bg-clip-text text-transparent"
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-100%", opacity: 0 }}
+          transition={{ duration: 0.6, ease }}
+          className="whitespace-nowrap text-accent-2"
         >
           {profile.roles[i]}
         </motion.span>
@@ -31,198 +32,141 @@ function RotatingRole() {
   );
 }
 
-const word = {
-  hidden: { y: "110%" },
-  show: (i: number) => ({ y: "0%", transition: { duration: 1, ease, delay: 0.35 + i * 0.08 } }),
-};
+const lines = [["Engineering", "reliable"], ["products,", "pixel", "to"], ["production."]];
+
+/** Typographic project preview, styled like a mini website screenshot. */
+const looks = [
+  { name: "taskizy", word: "taskizy", glow: "from-accent/50 via-accent-3/25", font: "font-semibold tracking-[-0.04em]", tag: "Menu-bar productivity" },
+  { name: "ecom-microservices", word: "ecom", glow: "from-accent-2/45 via-accent/20", font: "font-script !text-[8.5rem] !leading-[0.8]", tag: "Distributed commerce" },
+];
+
+function Preview({ i }: { i: number }) {
+  const look = looks[i];
+  const proj = projects.find((x) => x.name === look.name)!;
+  return (
+    <motion.a
+      href={proj.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, ease, delay: 1.05 + i * 0.12 }}
+      whileHover={{ y: -6 }}
+      className="surface group relative h-56 overflow-hidden rounded-[1.75rem] sm:h-60"
+    >
+      <div className={`absolute -bottom-20 -right-10 h-72 w-72 rounded-full bg-gradient-to-tr ${look.glow} to-transparent blur-3xl transition-transform duration-700 group-hover:scale-125`} />
+      {/* fake browser chrome */}
+      <div className="relative flex items-center justify-between px-5 pt-4 font-mono text-[9px] uppercase tracking-widest text-muted">
+        <span className="flex gap-3"><span>About</span><span>Work</span><span>Contact</span></span>
+        <span className="text-fg/70">{proj.title.split(" ")[0]}</span>
+        <span className="rounded-full border border-line px-2 py-0.5">Repo</span>
+      </div>
+      <div className="relative px-5 pt-5">
+        <div className="text-lg leading-tight text-fg">{look.tag}</div>
+        <div className="mt-1 max-w-[15rem] text-xs leading-snug text-muted">{proj.description.slice(0, 70)}…</div>
+      </div>
+      <div className={`absolute -bottom-3 left-4 text-[5.5rem] leading-none text-fg transition-transform duration-700 group-hover:-translate-y-1 ${look.font}`}>
+        {look.word}
+      </div>
+      <span className="absolute right-4 top-14 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-fg opacity-0 backdrop-blur transition-all duration-500 group-hover:rotate-45 group-hover:opacity-100">
+        <ArrowUpRight />
+      </span>
+    </motion.a>
+  );
+}
 
 export default function HeroSection() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
-
-  const headline = ["Crafting", "software", "that", "feels", "effortless."];
-
+  let k = 0;
   return (
-    <section
-      ref={ref}
-      id="top"
-      className="relative flex min-h-[100svh] items-center px-5 pb-20 pt-32 sm:px-8"
-    >
-      <motion.div style={{ y, opacity, scale }} className="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-[1.35fr_1fr]">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease, delay: 0.1 }}
-            className="glass mb-8 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm text-muted"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            </span>
-            <span className="sm:hidden">SDE</span>
-            <span className="hidden sm:inline">{profile.role}</span>
-            <span>@</span> <span className="text-fg">{profile.company}</span>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.25 }}
-            className="mb-3 font-mono text-sm tracking-wide text-accent-2"
-          >
-            {profile.greeting} 👋
-          </motion.p>
-
-          <h1 className="text-[clamp(2.6rem,7vw,5.4rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
-            {headline.map((w, i) => (
-              <span key={w} className="mr-[0.22em] inline-block overflow-hidden pb-[0.08em] align-bottom">
-                <motion.span
-                  custom={i}
-                  variants={word}
-                  initial="hidden"
-                  animate="show"
-                  className={`inline-block ${i === headline.length - 1 ? "text-gradient" : "text-fg"}`}
-                >
-                  {w}
-                </motion.span>
-              </span>
-            ))}
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease, delay: 0.9 }}
-            className="mt-6 text-xl font-medium text-fg/90 sm:text-2xl"
-          >
-            <RotatingRole />
-          </motion.p>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease, delay: 1.0 }}
-            className="mt-5 max-w-xl text-lg leading-relaxed text-muted"
-          >
-            {profile.tagline}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease, delay: 1.1 }}
-            className="mt-9 flex flex-wrap items-center gap-4"
-          >
-            <Magnetic>
-              <a
-                href="#projects"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-fg px-6 py-3 font-medium text-ink shadow-[0_0_40px_-8px_rgb(139_123_255/0.7)] transition-shadow hover:shadow-[0_0_60px_-6px_rgb(139_123_255/0.9)]"
-              >
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/70 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                <span className="relative">View my work</span>
-                <ArrowRight className="relative h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-            </Magnetic>
-            <Magnetic>
-              <a
-                href="#contact"
-                className="glass inline-flex items-center gap-2 rounded-full px-6 py-3 font-medium text-fg transition-colors hover:bg-white/10"
-              >
-                <MailIcon className="h-4 w-4" /> Get in touch
-              </a>
-            </Magnetic>
-            <div className="ml-1 flex items-center gap-1">
-              {[
-                { href: profile.social.github, icon: <GitHubIcon />, label: "GitHub" },
-                { href: profile.social.linkedin, icon: <LinkedInIcon />, label: "LinkedIn" },
-                { href: profile.social.twitter, icon: <XIcon />, label: "X / Twitter" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="grid h-11 w-11 place-items-center rounded-full text-muted transition-all hover:-translate-y-0.5 hover:bg-white/5 hover:text-fg"
-                >
-                  {s.icon}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Avatar */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1.3, ease, delay: 0.4 }}
-          className="relative mx-auto w-full max-w-[22rem]"
-        >
-          <div className="absolute -inset-10 rounded-full bg-gradient-to-tr from-accent/30 via-accent-2/20 to-accent-3/20 blur-3xl" />
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative aspect-square"
-          >
-            <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] p-[2px]">
-              <div className="ring-spin absolute -inset-1/2" />
-              <div className="relative h-full w-full overflow-hidden rounded-[calc(2.5rem-2px)] bg-ink-2">
-                <Image
-                  src={profile.avatar}
-                  alt={profile.fullName}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 80vw, 352px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-              </div>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, ease, delay: 1.3 }}
-              className="glass absolute -left-6 bottom-10 z-10 rounded-2xl !bg-ink-2/80 px-4 py-3 shadow-2xl sm:-left-12"
-            >
-              <div className="text-2xl font-semibold text-fg">{projects.length}+</div>
-              <div className="text-xs text-muted">projects built</div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, ease, delay: 1.45 }}
-              className="glass absolute -right-4 top-10 z-10 rounded-2xl !bg-ink-2/80 px-4 py-3 shadow-2xl sm:-right-10"
-            >
-              <div className="text-2xl font-semibold text-fg">25+</div>
-              <div className="text-xs text-muted">public repos</div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
+    <section id="top" className="relative flex min-h-[100svh] flex-col justify-center py-14 lg:py-10">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease, delay: 0.3 }}
+        className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[15px] text-fg/75"
+      >
+        <a href={`mailto:${profile.email}`} className="inline-flex items-center gap-2 hover:text-fg">
+          <MailIcon className="h-4 w-4" /> {profile.email}
+        </a>
+        <span className="hidden h-5 w-px bg-line sm:block" />
+        <span className="inline-flex items-center gap-2">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.7} viewBox="0 0 24 24" aria-hidden>
+            <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z" />
+            <circle cx="12" cy="9.5" r="2.5" />
+          </svg>
+          {profile.location}
+        </span>
+        <span className="hidden h-5 w-px bg-line sm:block" />
+        <a href={profile.social.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-fg">
+          <LinkedInIcon className="h-4 w-4" /> /in/kishanknows
+        </a>
       </motion.div>
 
-      <motion.a
-        href="#about"
-        aria-label="Scroll down"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs uppercase tracking-[0.3em] text-muted sm:flex"
+      <h2 className="mt-10 text-[clamp(2.5rem,5vw,4.5rem)] font-medium leading-[1.02] tracking-[-0.01em] text-fg">
+        {lines.map((line, li) => (
+          <span key={li} className="block">
+            {line.map((w) => {
+              const idx = k++;
+              return (
+                <span key={w} className="mr-[0.24em] inline-block overflow-hidden pb-[0.06em] align-bottom">
+                  <motion.span
+                    initial={{ y: "110%" }}
+                    animate={{ y: "0%" }}
+                    transition={{ duration: 1, ease, delay: 0.45 + idx * 0.07 }}
+                    className={`inline-block ${w === "production." ? "text-gradient" : ""}`}
+                  >
+                    {w}
+                  </motion.span>
+                </span>
+              );
+            })}
+          </span>
+        ))}
+      </h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease, delay: 0.85 }}
+        className="mt-7 max-w-xl text-xl leading-snug text-muted"
       >
-        Scroll
-        <span className="relative h-10 w-6 rounded-full border border-white/15">
+        {profile.role} at <span className="text-fg">{profile.company}</span>.{" "}
+        <RotatingRole /> building reliable, user-facing products end to end.
+      </motion.p>
+
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={{ show: { transition: { staggerChildren: 0.05, delayChildren: 0.95 } } }}
+        className="mt-8 flex max-w-2xl flex-wrap gap-2.5"
+      >
+        {chips.map((c) => (
           <motion.span
-            animate={{ y: [6, 20, 6], opacity: [1, 0.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-fg"
-          />
-        </span>
-      </motion.a>
+            key={c}
+            variants={{ hidden: { opacity: 0, y: 12, scale: 0.9 }, show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease } } }}
+            whileHover={{ y: -2 }}
+            className="cursor-default rounded-full border border-line bg-white/[0.03] px-5 py-2 text-[15px] text-fg/80 transition-colors hover:border-white/30 hover:bg-white/[0.07] hover:text-fg"
+          >
+            {c}
+          </motion.span>
+        ))}
+      </motion.div>
+
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1fr_auto]">
+        <Preview i={0} />
+        <Preview i={1} />
+        <motion.a
+          href="#projects"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease, delay: 1.3 }}
+          whileHover={{ y: -6 }}
+          className="surface group flex h-16 items-center justify-center gap-3 rounded-[1.75rem] text-xl tracking-[0.2em] text-fg sm:h-60 sm:w-20 sm:flex-col"
+        >
+          <span className="sm:[writing-mode:vertical-rl] sm:rotate-180">MORE</span>
+          <ArrowUpRight className="h-5 w-5 transition-transform duration-500 group-hover:rotate-45" />
+        </motion.a>
+      </div>
     </section>
   );
 }
