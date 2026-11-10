@@ -26,7 +26,7 @@ export const profile = {
     { label: "Focus", value: "iOS · Full-stack · Performance" },
     { label: "Based in", value: "New Delhi, India" },
   ],
-  avatar: `${base}/avatar.jpeg`,
+  avatar: `${base}/profile.jpg`,
   email: "kishanknows@gmail.com",
   social: {
     github: "https://github.com/kishanknows",
