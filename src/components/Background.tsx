@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 
-/** Fixed page backdrop: drifting aurora, faint grid, film grain and a cursor spotlight. */
+/** Fixed black backdrop: a faint grid, film grain and a soft cursor spotlight. */
 export default function Background() {
   useEffect(() => {
     let raf = 0;
@@ -20,11 +20,9 @@ export default function Background() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="aurora aurora-1" />
-      <div className="aurora aurora-2" />
-      <div className="aurora aurora-3" />
-      <div className="grid-bg absolute inset-0" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-ink">
+      <div className="absolute -left-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-accent/[0.07] blur-[120px]" />
+      <div className="grid-bg absolute inset-0 opacity-40" />
       <div className="spotlight absolute inset-0" />
       <div className="noise absolute inset-0" />
     </div>

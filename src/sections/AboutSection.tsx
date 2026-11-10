@@ -13,7 +13,7 @@ const stats = [
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative px-5 py-28 sm:px-8 sm:py-36">
+    <section id="about" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="About me"
@@ -38,7 +38,7 @@ export default function AboutSection() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
-            className="grid grid-cols-2 gap-3"
+            className="grid grid-cols-2 content-start gap-3"
           >
             {profile.highlights.map((h) => (
               <motion.div
