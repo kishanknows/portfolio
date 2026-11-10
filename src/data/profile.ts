@@ -7,12 +7,6 @@ export const profile = {
   role: "Software Development Engineer",
   company: "District by Zomato",
   location: "New Delhi, India",
-  roles: [
-    "iOS Engineer",
-    "Full-stack Engineer",
-    "React Native Developer",
-    "Competitive Programmer",
-  ],
   tagline:
     "I build reliable, user-facing products and like understanding systems end to end, from mobile apps to backend logic, APIs and performance.",
   about: [
@@ -26,7 +20,7 @@ export const profile = {
     { label: "Focus", value: "iOS · Full-stack · Performance" },
     { label: "Based in", value: "New Delhi, India" },
   ],
-  avatar: `${base}/avatar.jpeg`,
+  avatar: `${base}/profile.jpg`,
   email: "kishanknows@gmail.com",
   social: {
     github: "https://github.com/kishanknows",

@@ -1,36 +1,11 @@
 "use client";
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { profile } from "../data/profile";
 import { projects } from "../data/projects";
 import { ArrowUpRight, LinkedInIcon, MailIcon } from "../components/icons";
 import { ease } from "../components/motion";
 
 const chips = ["iOS", "Swift", "UIKit", "React Native", "Node.js", "Go", "Spring Boot", "System Debugging"];
-
-function RotatingRole() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % profile.roles.length), 2600);
-    return () => clearInterval(t);
-  }, []);
-  return (
-    <span className="relative inline-grid h-[1.2em] overflow-hidden align-bottom">
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={profile.roles[i]}
-          initial={{ y: "100%", opacity: 0 }}
-          animate={{ y: "0%", opacity: 1 }}
-          exit={{ y: "-100%", opacity: 0 }}
-          transition={{ duration: 0.6, ease }}
-          className="whitespace-nowrap text-accent-2"
-        >
-          {profile.roles[i]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  );
-}
 
 const lines = [["Engineering", "reliable"], ["products,", "pixel", "to"], ["production."]];
 
@@ -131,7 +106,7 @@ export default function HeroSection() {
         className="mt-7 max-w-xl text-xl leading-snug text-muted"
       >
         {profile.role} at <span className="text-fg">{profile.company}</span>.{" "}
-        <RotatingRole /> building reliable, user-facing products end to end.
+        <span className="text-accent-2">iOS Engineer</span> building reliable, user-facing products end to end.
       </motion.p>
 
       <motion.div
