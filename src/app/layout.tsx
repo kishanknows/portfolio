@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kishanknows.in"),
-  title: "Kishan Jangde · Software Engineer",
+  title: "kishanknows",
   description:
     "Kishan Jangde is a Software Development Engineer at District by Zomato and an IIT Delhi alum building iOS apps, full-stack products and backend services.",
   openGraph: {
